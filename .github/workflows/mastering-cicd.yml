@@ -9,16 +9,16 @@ jobs:
         - name: copying some content
           run: echo "master cicd,python,terraform and kubernetes kumar" > kumar_target.sh
         - name: upload artifact to be available in other jobs
-          uses: actions/upload-artifact@v4.4.3
+          uses: actions/upload-artifact@v4
           with:
             name: kumars_aim
-            path: kumar_target.txt
+            path: kumar_target.sh
     test:
         needs: build
         runs-on: ubuntu-latest
         steps:
             - name: download the artifact
-              uses: actions/download-artifact@v4.4.3
+              uses: actions/download-artifact@v4
               with:
                 name: kumars_aim
             - name: list and check files
@@ -30,7 +30,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: download the artifact
-              uses: actions/download-artifact@v4.4.3
+              uses: actions/download-artifact@v4
               with:
                 name: kumars_aim
             - name: print content of the file
