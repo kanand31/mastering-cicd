@@ -1,5 +1,7 @@
 name: master-cicd
 on: workflow_dispatch
+env:
+  DOCKER_USERNAME: kanand
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -8,32 +10,39 @@ jobs:
           uses: actions/checkout@v4 
         - name: copying some content
           run: echo "master cicd,python,terraform and kubernetes kumar" > kumar_target.sh
-        - name: upload artifact to be available in other jobs
-          uses: actions/upload-artifact@v4
-          with:
-            name: kumars_aim
-            path: kumar_target.sh
+        - name: build docker images
+          run: echo "docker build -t  ${{ env.DOCKER_USERNAME }}:latest ."
+        - name:  defining organisation,environment or repository level variable and using it
+          run: echo "i have to master ${{ vars.DEVOPS }} properly"
+      #  - name: upload artifact to be available in other jobs
+       #   uses: actions/upload-artifact@v4
+        #  with:
+         #   name: kumars_aim
+          #  path: kumar_target.sh
     test:
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - name: download the artifact
-              uses: actions/download-artifact@v4
-              with:
-                name: kumars_aim
+        #    - name: download the artifact
+         #     uses: actions/download-artifact@v4
+          #    with:
+           #     name: kumars_aim
             - name: list and check files
               run: |
                 hostname
                 pwd
                 ls -ltra
-                grep -i python "kumar_target.sh"
+           #     grep -i python "kumar_target.sh"
     deploy:
         needs: test
         runs-on: ubuntu-latest
+        concurrency:
+            group: mydemo
+            cancel-in-progress: false
         steps:
-            - name: download the artifact
-              uses: actions/download-artifact@v4
-              with:
-                name: kumars_aim
+         #   - name: download the artifact
+          #    uses: actions/download-artifact@v4
+           #   with:
+            #    name: kumars_aim
             - name: print content of the file
-              run: cat kumar_target.sh
+              run: sleep 300s
