@@ -22,7 +22,7 @@ jobs:
         - name: build docker images
           run: echo "docker build -t  ${{ env.DOCKER_USERNAME }}:latest ."
         - name:  defining organisation,environment or repository level variable and using it
-          run: echo "i have to master ${{ vars.DEVOPS }} properly"
+          run: echo "i have to master ${{ vars.DEVOPS }} properly and urgently"
       #  - name: upload artifact to be available in other jobs
        #   uses: actions/upload-artifact@v4
         #  with:
