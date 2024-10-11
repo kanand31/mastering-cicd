@@ -45,4 +45,5 @@ jobs:
            #   with:
             #    name: kumars_aim
             - name: print content of the file
+              timeout-minutes: 1
               run: sleep 300s
