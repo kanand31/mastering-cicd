@@ -1,5 +1,7 @@
 name: master-cicd
-on: workflow_dispatch
+on: 
+  push:
+  workflow_dispatch:
 env:
   DOCKER_USERNAME: kanand
 jobs:
@@ -23,10 +25,16 @@ jobs:
         needs: build
         strategy:
           fail-fast: false
-          max-parallel: 2
+          max-parallel: 3
           matrix:
             os: [ubuntu-latest, ubuntu-20.04, windows-latest]
             images: [hello-world, alpine]
+            exclude: 
+              - images: alpine
+                os: windows-latest
+            include:
+              - images: nginx
+                os: ubuntu-latest
         runs-on: ${{ matrix.os}}
         steps:
         #    - name: download the artifact
