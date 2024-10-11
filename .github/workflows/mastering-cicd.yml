@@ -21,29 +21,35 @@ jobs:
           #  path: kumar_target.sh
     test:
         needs: build
-        runs-on: ubuntu-latest
+        strategy:
+          fail-fast: false
+          max-parallel: 2
+          matrix:
+            os: [ubuntu-latest, ubuntu-20.04, windows-latest]
+            images: [hello-world, alpine]
+        runs-on: ${{ matrix.os}}
         steps:
         #    - name: download the artifact
          #     uses: actions/download-artifact@v4
           #    with:
            #     name: kumars_aim
             - name: list and check files
-              run: |
-                hostname
-                pwd
-                ls -ltra
-           #     grep -i python "kumar_target.sh"
-    deploy:
-        needs: test
-        runs-on: ubuntu-latest
-        concurrency:
-            group: mydemo
-            cancel-in-progress: false
-        steps:
+              run: docker info
+            - name: test docker ${{ matrix.images }} container on ${{ matrix.os }}
+              run: docker run ${{ matrix.images }}
+              
+    
+   # deploy:
+    #    needs: test
+     #   runs-on: ubuntu-latest
+      #  concurrency:
+       #     group: mydemo
+        #    cancel-in-progress: false
+        #steps:
          #   - name: download the artifact
           #    uses: actions/download-artifact@v4
            #   with:
             #    name: kumars_aim
-            - name: print content of the file
-              timeout-minutes: 1
-              run: sleep 300s
+         #   - name: print content of the file
+          #    timeout-minutes: 1
+           #   run: sleep 300s
