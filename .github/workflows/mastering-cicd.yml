@@ -23,6 +23,8 @@ jobs:
                 name: kumars_aim
             - name: list and check files
               run: |
+                hostname
+                pwd
                 ls -ltra
                 grep -i python "kumar_target.sh"
     deploy:
