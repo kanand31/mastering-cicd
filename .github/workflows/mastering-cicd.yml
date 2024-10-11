@@ -22,6 +22,7 @@ jobs:
          #   name: kumars_aim
           #  path: kumar_target.sh
     test:
+        if: github.ref == 'refs/heads/feature1'
         needs: build
         strategy:
           fail-fast: false
