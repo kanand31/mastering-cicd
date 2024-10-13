@@ -1,6 +1,6 @@
 name: master-cicd
 on: 
- # push:
+  push:
   #  branches:
  #     - main
   #    - feature1/test
@@ -9,29 +9,29 @@ on:
   #  - opened
   #  - closed
   workflow_dispatch:
-    inputs:
-      mastering_sre:
-        description: 'are you willing to sacrifice your comfort zone for success'
-        required: true
-        type: boolean
-      strength:
-        required: true
-        type: choice
-        description: 'what is your strength'
-        default: 'kubernetes'
-        options:
-          - kubernetes
-          - terraform
-          - azurecloud
-          - cicd using github action and argocd
-      topic:
-          description: 'your aim'
-          required: false
-          type: string
-      deploying:
-        type: environment
-        required: true
-        description: 'choose the environment where you want to deploy'
+   # inputs:
+    #  mastering_sre:
+     #   description: 'are you willing to sacrifice your comfort zone for success'
+      #  required: true
+       # type: boolean
+     # strength:
+      #  required: true
+       # type: choice
+        #description: 'what is your strength'
+       # default: 'kubernetes'
+       # options:
+        #  - kubernetes
+         # - terraform
+          #- azurecloud
+         # - cicd using github action and argocd
+   #   topic:
+    #      description: 'your aim'
+     #     required: false
+      #    type: string
+     # deploying:
+      #  type: environment
+       # required: true
+        #description: 'choose the environment where you want to deploy'
 
 
 
@@ -47,22 +47,27 @@ jobs:
      #     run: echo "master cicd,python,terraform and kubernetes kumar" > kumar_target.sh
         - name: build docker images
           run: echo "docker build -t  ${{ env.DOCKER_USERNAME }}:latest ."
+        - name: learning about github expressions
+          run: echo "hello kumar" && exit 1
+        - name: testing if block
+          if: true
+          run: echo "ek baar toh khud se jeet ke dikhao kumar"
         - name:  defining organisation,environment or repository level variable and using it
           run: echo "i have to master ${{ vars.DEVOPS }} properly and urgently"
-        - name: view github context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
-        - name: view inputs values
-          run: echo "${{ inputs.mastering_sre }} and ${{ inputs.strength }}" 
+       # - name: view github context
+        #  env:
+         #   GITHUB_CONTEXT: ${{ toJson(github) }}
+          #run: echo "$GITHUB_CONTEXT"
+       # - name: view inputs values
+        #  run: echo "${{ inputs.mastering_sre }} and ${{ inputs.strength }}" 
       #  - name: upload artifact to be available in other jobs
        #   uses: actions/upload-artifact@v4
         #  with:
          #   name: kumars_aim
           #  path: kumar_target.sh
     test:
-  #      if: github.ref == 'refs/heads/feature1/test'
-        if: ${{ inputs.mastering_sre == 'true'}}
+        if: github.ref == 'refs/heads/feature1/test'
+  #      if: ${{ inputs.mastering_sre == 'true'}}
   #      needs: build
         strategy:
           fail-fast: false
@@ -102,3 +107,4 @@ jobs:
          #   - name: print content of the file
           #    timeout-minutes: 1
            #   run: sleep 300s
+
