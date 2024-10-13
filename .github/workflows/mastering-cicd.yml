@@ -48,9 +48,10 @@ jobs:
         - name: build docker images
           run: echo "docker build -t  ${{ env.DOCKER_USERNAME }}:latest ."
         - name: learning about github expressions
+          continue-on-error: true
           run: echo "hello kumar" && exit 1
         - name: testing if block
-          if: always()
+         # if: always()
           run: echo "ek baar toh khud se jeet ke dikhao kumar"
         - name:  defining organisation,environment or repository level variable and using it
           run: echo "i have to master ${{ vars.DEVOPS }} properly and urgently"
