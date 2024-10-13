@@ -1,7 +1,40 @@
 name: master-cicd
 on: 
-  push:
+ # push:
+  #  branches:
+ #     - main
+  #    - feature1/test
+  #pull_request:
+  #  types: 
+  #  - opened
+  #  - closed
   workflow_dispatch:
+    inputs:
+      mastering_sre:
+        description: 'are you willing to sacrifice your comfort zone for success'
+        required: true
+        type: boolean
+      strength:
+        required: true
+        type: choice
+        description: 'what is your strength'
+        default: 'kubernetes'
+        options:
+          - kubernetes
+          - terraform
+          - azurecloud
+          - cicd using github action and argocd
+      topic:
+          description: 'your aim'
+          required: false
+          type: string
+      deploying:
+        type: environment
+        required: true
+        description: 'choose the environment where you want to deploy'
+
+
+
 env:
   DOCKER_USERNAME: kanand
 jobs:
@@ -10,32 +43,39 @@ jobs:
         steps:
         - name: code checkout
           uses: actions/checkout@v4 
-        - name: copying some content
-          run: echo "master cicd,python,terraform and kubernetes kumar" > kumar_target.sh
+      #  - name: copying some content
+     #     run: echo "master cicd,python,terraform and kubernetes kumar" > kumar_target.sh
         - name: build docker images
           run: echo "docker build -t  ${{ env.DOCKER_USERNAME }}:latest ."
         - name:  defining organisation,environment or repository level variable and using it
-          run: echo "i have to master ${{ vars.DEVOPS }} properly"
+          run: echo "i have to master ${{ vars.DEVOPS }} properly and urgently"
+        - name: view github context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+        - name: view inputs values
+          run: echo "${{ inputs.mastering_sre }} and ${{ inputs.strength }}" 
       #  - name: upload artifact to be available in other jobs
        #   uses: actions/upload-artifact@v4
         #  with:
          #   name: kumars_aim
           #  path: kumar_target.sh
     test:
-        if: github.ref == 'refs/heads/feature1'
-        needs: build
+  #      if: github.ref == 'refs/heads/feature1/test'
+        if: ${{ inputs.mastering_sre == 'true'}}
+  #      needs: build
         strategy:
           fail-fast: false
           max-parallel: 3
           matrix:
-            os: [ubuntu-latest, ubuntu-20.04, windows-latest]
-            images: [hello-world, alpine]
-            exclude: 
-              - images: alpine
-                os: windows-latest
-            include:
-              - images: nginx
-                os: ubuntu-latest
+            os: [ubuntu-latest, ubuntu-20.04]
+            images: [hello-world]
+         #   exclude: 
+          #    - images: alpine
+           #     os: windows-latest
+          #  include:
+           #   - images: nginx
+            #    os: ubuntu-latest
         runs-on: ${{ matrix.os}}
         steps:
         #    - name: download the artifact
