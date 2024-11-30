@@ -1,0 +1,1 @@
+lets start mastering each concept at a time
