@@ -1,6 +1,6 @@
 name: master-cicd
 on: 
-  push:
+
   #  branches:
  #     - main
   #    - feature1/test
